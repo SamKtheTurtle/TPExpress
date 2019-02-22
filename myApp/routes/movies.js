@@ -5,9 +5,15 @@ var router = express.Router();
 const _ = require('lodash');
 
 // Create RAW data array
-let movies = [{
-  movie: "Green Book",
-  id: "0"
+movies = [{
+  id: String,
+  movie: String,
+  yearOfRelease: Number,
+  duration: Number, // en minutes,
+  actors: [String, String],
+  poster: String, // lien vers une image d'affiche,
+  boxOffice: Number, // en USD$,
+  rottenTomatoesScore: Number
 }];
 
 /* GET movies listing. */
