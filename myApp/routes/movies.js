@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+const _ = require('lodash');
+
+// Create RAW data array
+let movies = [{
+  movie: "Green Book",
+  id: "0"
+}];
+
 /* GET movies listing. */
 router.get('/', (req, res) => {
   // Get List of movie and return JSON
@@ -26,7 +34,7 @@ router.put('/', (req, res) => {
     // Create new unique id
     const id = _.uniqueId();
     // Insert it in array (normaly with connect the data with the database)
-    moviess.push({ movie, id });
+    movies.push({ movie, id });
     // Return message
     res.json({
       message: `Just added ${id}`,
@@ -47,6 +55,23 @@ router.delete('/:id', (req, res) => {
       message: `Just removed ${id}`
     });
   });
+
+  /* UPDATE movie. */
+router.post('/:id', (req, res) => {
+  // Get the :id of the user we want to update from the params of the request
+  const { id } = req.params;
+  // Get the new data of the user we want to update from the body of the request
+  const { movie } = req.body;
+  // Find in DB
+  const movieToUpdate = _.find(movies, ["id", id]);
+  // Update data with new data (js is by address)
+  movieToUpdate.movie = movie;
+
+  // Return message
+  res.json({
+    message: `Just updated ${id} with ${movie}`
+  });
+});
   
 
 module.exports = router;
@@ -57,31 +82,11 @@ module.exports = router;
 //const _ = require('lodash');
 
 
-// Create RAW data array
-let users = [{
-  user: "Arthur",
-  id: "0"
-}];
 
 
 
 
 
 
-/* UPDATE user. */
-router.post('/:id', (req, res) => {
-  // Get the :id of the user we want to update from the params of the request
-  const { id } = req.params;
-  // Get the new data of the user we want to update from the body of the request
-  const { user } = req.body;
-  // Find in DB
-  const userToUpdate = _.find(users, ["id", id]);
-  // Update data with new data (js is by address)
-  userToUpdate.user = user;
 
-  // Return message
-  res.json({
-    message: `Just updated ${id} with ${user}`
-  });
-});
 
